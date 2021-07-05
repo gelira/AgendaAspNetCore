@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using AgendaAspNetCore.Dto;
 using AgendaAspNetCore.Models;
 
 namespace AgendaAspNetCore.Services
@@ -22,12 +23,15 @@ namespace AgendaAspNetCore.Services
             }
         }
 
-        public static void Add(Endereco e)
+        public static Endereco Add(CreateEndereco ce)
         {
+            var e = ce.Create();
+
             using (var db = new DatabaseContext())
             {
                 db.Enderecos.Add(e);
                 db.SaveChanges();
+                return e;
             }
         }
 
@@ -40,28 +44,23 @@ namespace AgendaAspNetCore.Services
                 using (var db = new DatabaseContext())
                 {
                     db.Enderecos.Remove(e);
+                    db.SaveChanges();
                 }
             }
             
             return e;
         }
 
-        public static Endereco Update(int id, Endereco endereco)
+        public static Endereco Update(int id, UpdateEndereco ue)
         {
             Endereco e = Get(id);
             
             if (e != null)
             {
+                e = ue.Update(e);
+
                 using (var db = new DatabaseContext())
                 {
-                    e.Logradouro = endereco.Logradouro;
-                    e.Numero = endereco.Numero;
-                    e.Complemento = endereco.Complemento;
-                    e.Bairro = endereco.Bairro;
-                    e.Cidade = endereco.Cidade;
-                    e.Estado = endereco.Estado;
-                    e.CEP = endereco.CEP;
-                    
                     db.Enderecos.Update(e);
                     db.SaveChanges();
                 }
