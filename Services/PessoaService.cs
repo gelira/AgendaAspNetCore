@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using AgendaAspNetCore.Dto;
 using AgendaAspNetCore.Models;
 
 namespace AgendaAspNetCore.Services
@@ -22,12 +23,15 @@ namespace AgendaAspNetCore.Services
             }
         }
 
-        public static void Add(Pessoa p)
+        public static Pessoa Add(CreatePessoa cp)
         {
+            var p = cp.Create();
+
             using (var db = new DatabaseContext())
             {
                 db.Pessoas.Add(p);
                 db.SaveChanges();
+                return p;
             }
         }
 
@@ -40,21 +44,23 @@ namespace AgendaAspNetCore.Services
                 using (var db = new DatabaseContext())
                 {
                     db.Pessoas.Remove(p);
+                    db.SaveChanges();
                 }
             }
             
             return p;
         }
 
-        public static Pessoa Update(int id, Pessoa pessoa)
+        public static Pessoa Update(int id, UpdatePessoa up)
         {
             Pessoa p = Get(id);
             
             if (p != null)
             {
+                p = up.Update(p);
+
                 using (var db = new DatabaseContext())
                 {
-                    p.Nome = pessoa.Nome;
                     db.Pessoas.Update(p);
                     db.SaveChanges();
                 }
