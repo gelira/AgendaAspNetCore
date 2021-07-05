@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AgendaAspNetCore.Dto;
 using AgendaAspNetCore.Models;
 using AgendaAspNetCore.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -32,16 +33,16 @@ namespace AgendaAspNetCore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Telefone t)
+        public IActionResult Create(CreateTelefone ct)
         {            
-            TelefoneService.Add(t);
+            var t = TelefoneService.Add(ct);
             return CreatedAtAction(nameof(Create), new { id = t.Id }, t);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, Telefone t)
+        public IActionResult Update(int id, UpdateTelefone ut)
         {
-            var retorno = TelefoneService.Update(id, t);
+            var retorno = TelefoneService.Update(id, ut);
             
             if (retorno is null)
             {

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using AgendaAspNetCore.Dto;
 using AgendaAspNetCore.Models;
 
 namespace AgendaAspNetCore.Services
@@ -22,12 +23,15 @@ namespace AgendaAspNetCore.Services
             }
         }
 
-        public static void Add(Telefone t)
+        public static Telefone Add(CreateTelefone ct)
         {
+            var t = ct.Create();
+
             using (var db = new DatabaseContext())
             {
                 db.Telefones.Add(t);
                 db.SaveChanges();
+                return t;
             }
         }
 
@@ -40,22 +44,23 @@ namespace AgendaAspNetCore.Services
                 using (var db = new DatabaseContext())
                 {
                     db.Telefones.Remove(t);
+                    db.SaveChanges();
                 }
             }
             
             return t;
         }
 
-        public static Telefone Update(int id, Telefone telefone)
+        public static Telefone Update(int id, UpdateTelefone ut)
         {
             Telefone t = Get(id);
             
             if (t != null)
             {
+                t = ut.Update(t);
+
                 using (var db = new DatabaseContext())
                 {
-                    t.Numero = telefone.Numero;
-                    t.Descricao = telefone.Descricao;
                     db.Telefones.Update(t);
                     db.SaveChanges();
                 }
