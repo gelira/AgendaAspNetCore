@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace AgendaAspNetCore.Models
 {
@@ -37,6 +38,7 @@ namespace AgendaAspNetCore.Models
         public int PessoaId { get; set; }
 
         [ForeignKey("PessoaId")]
+        [JsonIgnore]
         public Pessoa Pessoa { get; set; }
     }
 }
