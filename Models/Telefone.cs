@@ -15,7 +15,7 @@ namespace AgendaAspNetCore.Models
         public string Descricao { get; set; }
 
         [Required]
-        [RegularExpression(@"^\d{10,11}$")]
+        [MaxLength(20)]
         public string Numero { get; set; }
 
         public int PessoaId { get; set; }

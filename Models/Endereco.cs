@@ -32,7 +32,7 @@ namespace AgendaAspNetCore.Models
         public string Estado { get; set; }
 
         [Required]
-        [RegularExpression(@"^\d{8}$")]
+        [MaxLength(20)]
         public string CEP { get; set; }
 
         public int PessoaId { get; set; }
