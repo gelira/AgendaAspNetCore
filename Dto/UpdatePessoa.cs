@@ -6,6 +6,7 @@ namespace AgendaAspNetCore.Dto
     public class UpdatePessoa
     {
         [Required]
+        [MinLength(1)]
         [MaxLength(100)]
         public string Nome { get; set; }
 
